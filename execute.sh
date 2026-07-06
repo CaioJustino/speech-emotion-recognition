@@ -15,7 +15,7 @@ mkdir -p logs
 source $(conda info --base)/etc/profile.d/conda.sh
 
 # 3. Ativando o ambiente Conda.
-conda activate speech_emotion_recognition
+conda activate speech-emotion-recognition
 
 # 4. Navegando para o diretório de trabalho onde o job foi submetido.
 cd $SLURM_SUBMIT_DIR
