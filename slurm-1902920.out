@@ -1,0 +1,144 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1783372821.864169 2304407 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading CREMA-D dataset...
+Classes found: ['anger' 'disgust' 'fear' 'happiness' 'neutral' 'sadness']
+Extracting Mel Spectrograms...
+Extracting MFCCs...
+Splitting data...
+
+--- Training Mel Spectrogram CNN ---
+Epoch 1/50
+187/187 - 56s - 302ms/step - accuracy: 0.1940 - loss: 3.3191 - val_accuracy: 0.2129 - val_loss: 1.7711 - learning_rate: 0.0010
+Epoch 2/50
+187/187 - 52s - 280ms/step - accuracy: 0.2167 - loss: 1.7827 - val_accuracy: 0.2257 - val_loss: 1.7666 - learning_rate: 0.0010
+Epoch 3/50
+187/187 - 51s - 271ms/step - accuracy: 0.2231 - loss: 1.7770 - val_accuracy: 0.2283 - val_loss: 1.7736 - learning_rate: 0.0010
+Epoch 4/50
+187/187 - 51s - 273ms/step - accuracy: 0.2201 - loss: 1.7718 - val_accuracy: 0.1934 - val_loss: 1.7770 - learning_rate: 0.0010
+Epoch 5/50
+187/187 - 52s - 279ms/step - accuracy: 0.2390 - loss: 1.7533 - val_accuracy: 0.1713 - val_loss: 1.8017 - learning_rate: 0.0010
+Epoch 6/50
+187/187 - 50s - 269ms/step - accuracy: 0.2610 - loss: 1.7237 - val_accuracy: 0.1941 - val_loss: 1.7563 - learning_rate: 0.0010
+Epoch 7/50
+187/187 - 50s - 267ms/step - accuracy: 0.2684 - loss: 1.7112 - val_accuracy: 0.1719 - val_loss: 1.7821 - learning_rate: 0.0010
+Epoch 8/50
+187/187 - 51s - 270ms/step - accuracy: 0.2710 - loss: 1.7098 - val_accuracy: 0.2169 - val_loss: 1.7721 - learning_rate: 0.0010
+Epoch 9/50
+187/187 - 51s - 272ms/step - accuracy: 0.2866 - loss: 1.6756 - val_accuracy: 0.2525 - val_loss: 1.7258 - learning_rate: 0.0010
+Epoch 10/50
+187/187 - 53s - 283ms/step - accuracy: 0.2921 - loss: 1.6703 - val_accuracy: 0.3331 - val_loss: 1.6375 - learning_rate: 0.0010
+Epoch 11/50
+187/187 - 51s - 273ms/step - accuracy: 0.2904 - loss: 1.6835 - val_accuracy: 0.1921 - val_loss: 1.8398 - learning_rate: 0.0010
+Epoch 12/50
+187/187 - 50s - 270ms/step - accuracy: 0.2965 - loss: 1.6649 - val_accuracy: 0.1807 - val_loss: 1.8789 - learning_rate: 0.0010
+Epoch 13/50
+187/187 - 50s - 270ms/step - accuracy: 0.2950 - loss: 1.6636 - val_accuracy: 0.2021 - val_loss: 1.8135 - learning_rate: 0.0010
+Epoch 14/50
+187/187 - 52s - 279ms/step - accuracy: 0.2903 - loss: 1.6604 - val_accuracy: 0.3533 - val_loss: 1.6164 - learning_rate: 0.0010
+Epoch 15/50
+187/187 - 51s - 274ms/step - accuracy: 0.3029 - loss: 1.6784 - val_accuracy: 0.1921 - val_loss: 1.8517 - learning_rate: 0.0010
+Epoch 16/50
+187/187 - 53s - 283ms/step - accuracy: 0.3030 - loss: 1.6500 - val_accuracy: 0.1827 - val_loss: 1.8855 - learning_rate: 0.0010
+Epoch 17/50
+187/187 - 54s - 290ms/step - accuracy: 0.3057 - loss: 1.6579 - val_accuracy: 0.1840 - val_loss: 1.8735 - learning_rate: 0.0010
+Epoch 18/50
+187/187 - 53s - 286ms/step - accuracy: 0.3086 - loss: 1.6473 - val_accuracy: 0.1484 - val_loss: 1.8526 - learning_rate: 0.0010
+Epoch 19/50
+187/187 - 53s - 282ms/step - accuracy: 0.3098 - loss: 1.6403 - val_accuracy: 0.1833 - val_loss: 1.8882 - learning_rate: 0.0010
+Epoch 20/50
+187/187 - 54s - 290ms/step - accuracy: 0.3195 - loss: 1.6243 - val_accuracy: 0.1860 - val_loss: 1.8834 - learning_rate: 5.0000e-04
+Epoch 21/50
+187/187 - 54s - 287ms/step - accuracy: 0.3190 - loss: 1.6293 - val_accuracy: 0.1598 - val_loss: 1.8162 - learning_rate: 5.0000e-04
+Epoch 22/50
+187/187 - 54s - 288ms/step - accuracy: 0.3225 - loss: 1.6230 - val_accuracy: 0.1498 - val_loss: 1.9154 - learning_rate: 5.0000e-04
+Epoch 23/50
+187/187 - 52s - 279ms/step - accuracy: 0.3163 - loss: 1.6308 - val_accuracy: 0.1504 - val_loss: 1.8597 - learning_rate: 5.0000e-04
+Epoch 24/50
+187/187 - 53s - 281ms/step - accuracy: 0.3208 - loss: 1.6300 - val_accuracy: 0.1807 - val_loss: 1.9343 - learning_rate: 5.0000e-04
+[1m 1/47[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m5s[0m 113ms/step[1m 2/47[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m2s[0m 56ms/step [1m 3/47[0m [32m━[0m[37m━━━━━━━━━━━━━━━━━━━[0m [1m2s[0m 54ms/step[1m 4/47[0m [32m━[0m[37m━━━━━━━━━━━━━━━━━━━[0m [1m2s[0m 54ms/step[1m 5/47[0m [32m━━[0m[37m━━━━━━━━━━━━━━━━━━[0m [1m2s[0m 54ms/step[1m 6/47[0m [32m━━[0m[37m━━━━━━━━━━━━━━━━━━[0m [1m2s[0m 55ms/step[1m 7/47[0m [32m━━[0m[37m━━━━━━━━━━━━━━━━━━[0m [1m2s[0m 55ms/step[1m 9/47[0m [32m━━━[0m[37m━━━━━━━━━━━━━━━━━[0m [1m2s[0m 54ms/step[1m10/47[0m [32m━━━━[0m[37m━━━━━━━━━━━━━━━━[0m [1m1s[0m 54ms/step[1m11/47[0m [32m━━━━[0m[37m━━━━━━━━━━━━━━━━[0m [1m1s[0m 54ms/step[1m12/47[0m [32m━━━━━[0m[37m━━━━━━━━━━━━━━━[0m [1m1s[0m 54ms/step[1m13/47[0m [32m━━━━━[0m[37m━━━━━━━━━━━━━━━[0m [1m1s[0m 54ms/step[1m14/47[0m [32m━━━━━[0m[37m━━━━━━━━━━━━━━━[0m [1m1s[0m 54ms/step[1m15/47[0m [32m━━━━━━[0m[37m━━━━━━━━━━━━━━[0m [1m1s[0m 55ms/step[1m16/47[0m [32m━━━━━━[0m[37m━━━━━━━━━━━━━━[0m [1m1s[0m 55ms/step[1m17/47[0m [32m━━━━━━━[0m[37m━━━━━━━━━━━━━[0m [1m1s[0m 55ms/step[1m18/47[0m [32m━━━━━━━[0m[37m━━━━━━━━━━━━━[0m [1m1s[0m 56ms/step[1m19/47[0m [32m━━━━━━━━[0m[37m━━━━━━━━━━━━[0m [1m1s[0m 56ms/step[1m20/47[0m [32m━━━━━━━━[0m[37m━━━━━━━━━━━━[0m [1m1s[0m 56ms/step[1m21/47[0m [32m━━━━━━━━[0m[37m━━━━━━━━━━━━[0m [1m1s[0m 56ms/step[1m22/47[0m [32m━━━━━━━━━[0m[37m━━━━━━━━━━━[0m [1m1s[0m 56ms/step[1m23/47[0m [32m━━━━━━━━━[0m[37m━━━━━━━━━━━[0m [1m1s[0m 56ms/step[1m24/47[0m [32m━━━━━━━━━━[0m[37m━━━━━━━━━━[0m [1m1s[0m 57ms/step[1m25/47[0m [32m━━━━━━━━━━[0m[37m━━━━━━━━━━[0m [1m1s[0m 57ms/step[1m26/47[0m [32m━━━━━━━━━━━[0m[37m━━━━━━━━━[0m [1m1s[0m 57ms/step[1m27/47[0m [32m━━━━━━━━━━━[0m[37m━━━━━━━━━[0m [1m1s[0m 57ms/step[1m28/47[0m [32m━━━━━━━━━━━[0m[37m━━━━━━━━━[0m [1m1s[0m 57ms/step[1m29/47[0m [32m━━━━━━━━━━━━[0m[37m━━━━━━━━[0m [1m1s[0m 57ms/step[1m30/47[0m [32m━━━━━━━━━━━━[0m[37m━━━━━━━━[0m [1m0s[0m 58ms/step[1m31/47[0m [32m━━━━━━━━━━━━━[0m[37m━━━━━━━[0m [1m0s[0m 58ms/step[1m32/47[0m [32m━━━━━━━━━━━━━[0m[37m━━━━━━━[0m [1m0s[0m 58ms/step[1m33/47[0m [32m━━━━━━━━━━━━━━[0m[37m━━━━━━[0m [1m0s[0m 57ms/step[1m34/47[0m [32m━━━━━━━━━━━━━━[0m[37m━━━━━━[0m [1m0s[0m 57ms/step[1m36/47[0m [32m━━━━━━━━━━━━━━━[0m[37m━━━━━[0m [1m0s[0m 57ms/step[1m38/47[0m [32m━━━━━━━━━━━━━━━━[0m[37m━━━━[0m [1m0s[0m 57ms/step[1m39/47[0m [32m━━━━━━━━━━━━━━━━[0m[37m━━━━[0m [1m0s[0m 57ms/step[1m40/47[0m [32m━━━━━━━━━━━━━━━━━[0m[37m━━━[0m [1m0s[0m 57ms/step[1m41/47[0m [32m━━━━━━━━━━━━━━━━━[0m[37m━━━[0m [1m0s[0m 57ms/step[1m42/47[0m [32m━━━━━━━━━━━━━━━━━[0m[37m━━━[0m [1m0s[0m 57ms/step[1m43/47[0m [32m━━━━━━━━━━━━━━━━━━[0m[37m━━[0m [1m0s[0m 57ms/step[1m44/47[0m [32m━━━━━━━━━━━━━━━━━━[0m[37m━━[0m [1m0s[0m 58ms/step[1m45/47[0m [32m━━━━━━━━━━━━━━━━━━━[0m[37m━[0m [1m0s[0m 58ms/step[1m47/47[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 58ms/step[1m47/47[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m3s[0m 58ms/step
+Classification Report: Mel Spectrogram CNN
+              precision    recall  f1-score   support
+
+       anger       0.58      0.45      0.51       260
+     disgust       0.32      0.11      0.17       254
+        fear       0.00      0.00      0.00       239
+   happiness       0.36      0.43      0.39       253
+     neutral       0.28      0.14      0.19       214
+     sadness       0.31      0.89      0.45       269
+
+    accuracy                           0.35      1489
+   macro avg       0.31      0.34      0.29      1489
+weighted avg       0.31      0.35      0.29      1489
+
+
+--- Training MFCC CNN ---
+Epoch 1/50
+187/187 - 13s - 71ms/step - accuracy: 0.2626 - loss: 2.9549 - val_accuracy: 0.2982 - val_loss: 1.6464 - learning_rate: 0.0010
+Epoch 2/50
+187/187 - 12s - 66ms/step - accuracy: 0.3539 - loss: 1.5651 - val_accuracy: 0.3962 - val_loss: 1.5565 - learning_rate: 0.0010
+Epoch 3/50
+187/187 - 12s - 67ms/step - accuracy: 0.3838 - loss: 1.5107 - val_accuracy: 0.4372 - val_loss: 1.4704 - learning_rate: 0.0010
+Epoch 4/50
+187/187 - 13s - 67ms/step - accuracy: 0.4159 - loss: 1.4389 - val_accuracy: 0.4459 - val_loss: 1.4028 - learning_rate: 0.0010
+Epoch 5/50
+187/187 - 12s - 67ms/step - accuracy: 0.4327 - loss: 1.4051 - val_accuracy: 0.4439 - val_loss: 1.3865 - learning_rate: 0.0010
+Epoch 6/50
+187/187 - 12s - 65ms/step - accuracy: 0.4653 - loss: 1.3420 - val_accuracy: 0.4359 - val_loss: 1.4281 - learning_rate: 0.0010
+Epoch 7/50
+187/187 - 12s - 65ms/step - accuracy: 0.4806 - loss: 1.3121 - val_accuracy: 0.4231 - val_loss: 1.4494 - learning_rate: 0.0010
+Epoch 8/50
+187/187 - 12s - 63ms/step - accuracy: 0.5009 - loss: 1.2606 - val_accuracy: 0.4674 - val_loss: 1.3928 - learning_rate: 0.0010
+Epoch 9/50
+187/187 - 12s - 67ms/step - accuracy: 0.5295 - loss: 1.1927 - val_accuracy: 0.4453 - val_loss: 1.3857 - learning_rate: 0.0010
+Epoch 10/50
+187/187 - 13s - 67ms/step - accuracy: 0.5525 - loss: 1.1349 - val_accuracy: 0.4634 - val_loss: 1.3924 - learning_rate: 0.0010
+Epoch 11/50
+187/187 - 13s - 68ms/step - accuracy: 0.5584 - loss: 1.1081 - val_accuracy: 0.4600 - val_loss: 1.3702 - learning_rate: 0.0010
+Epoch 12/50
+187/187 - 12s - 65ms/step - accuracy: 0.5945 - loss: 1.0404 - val_accuracy: 0.4506 - val_loss: 1.3944 - learning_rate: 0.0010
+Epoch 13/50
+187/187 - 12s - 66ms/step - accuracy: 0.6141 - loss: 1.0035 - val_accuracy: 0.4728 - val_loss: 1.4259 - learning_rate: 0.0010
+Epoch 14/50
+187/187 - 12s - 65ms/step - accuracy: 0.6283 - loss: 0.9497 - val_accuracy: 0.4473 - val_loss: 1.4704 - learning_rate: 0.0010
+Epoch 15/50
+187/187 - 12s - 67ms/step - accuracy: 0.6587 - loss: 0.8820 - val_accuracy: 0.4627 - val_loss: 1.4875 - learning_rate: 0.0010
+Epoch 16/50
+187/187 - 12s - 66ms/step - accuracy: 0.6750 - loss: 0.8532 - val_accuracy: 0.4392 - val_loss: 1.5536 - learning_rate: 0.0010
+Epoch 17/50
+187/187 - 12s - 66ms/step - accuracy: 0.7028 - loss: 0.7765 - val_accuracy: 0.4614 - val_loss: 1.5953 - learning_rate: 5.0000e-04
+Epoch 18/50
+187/187 - 13s - 68ms/step - accuracy: 0.7415 - loss: 0.6791 - val_accuracy: 0.4621 - val_loss: 1.5642 - learning_rate: 5.0000e-04
+Epoch 19/50
+187/187 - 13s - 67ms/step - accuracy: 0.7463 - loss: 0.6582 - val_accuracy: 0.4520 - val_loss: 1.6445 - learning_rate: 5.0000e-04
+Epoch 20/50
+187/187 - 12s - 67ms/step - accuracy: 0.7559 - loss: 0.6355 - val_accuracy: 0.4600 - val_loss: 1.7031 - learning_rate: 5.0000e-04
+Epoch 21/50
+187/187 - 12s - 65ms/step - accuracy: 0.7689 - loss: 0.6038 - val_accuracy: 0.4627 - val_loss: 1.6636 - learning_rate: 5.0000e-04
+[1m 1/47[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m3s[0m 71ms/step[1m 5/47[0m [32m━━[0m[37m━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 13ms/step[1m 9/47[0m [32m━━━[0m[37m━━━━━━━━━━━━━━━━━[0m [1m0s[0m 13ms/step[1m14/47[0m [32m━━━━━[0m[37m━━━━━━━━━━━━━━━[0m [1m0s[0m 13ms/step[1m18/47[0m [32m━━━━━━━[0m[37m━━━━━━━━━━━━━[0m [1m0s[0m 13ms/step[1m22/47[0m [32m━━━━━━━━━[0m[37m━━━━━━━━━━━[0m [1m0s[0m 13ms/step[1m26/47[0m [32m━━━━━━━━━━━[0m[37m━━━━━━━━━[0m [1m0s[0m 13ms/step[1m30/47[0m [32m━━━━━━━━━━━━[0m[37m━━━━━━━━[0m [1m0s[0m 13ms/step[1m34/47[0m [32m━━━━━━━━━━━━━━[0m[37m━━━━━━[0m [1m0s[0m 14ms/step[1m38/47[0m [32m━━━━━━━━━━━━━━━━[0m[37m━━━━[0m [1m0s[0m 14ms/step[1m42/47[0m [32m━━━━━━━━━━━━━━━━━[0m[37m━━━[0m [1m0s[0m 14ms/step[1m46/47[0m [32m━━━━━━━━━━━━━━━━━━━[0m[37m━[0m [1m0s[0m 14ms/step[1m47/47[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 15ms/step[1m47/47[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m1s[0m 16ms/step
+Classification Report: MFCC CNN
+              precision    recall  f1-score   support
+
+       anger       0.61      0.58      0.59       260
+     disgust       0.39      0.43      0.41       254
+        fear       0.34      0.24      0.28       239
+   happiness       0.43      0.51      0.46       253
+     neutral       0.47      0.36      0.41       214
+     sadness       0.50      0.60      0.54       269
+
+    accuracy                           0.46      1489
+   macro avg       0.46      0.45      0.45      1489
+weighted avg       0.46      0.46      0.45      1489
+
+
+--- Training MFCC CRNN ---
+Traceback (most recent call last):
+  File "/home/sallopes/speech-emotion-recognition/main.py", line 221, in <module>
+    main()
+    ~~~~^^
+  File "/home/sallopes/speech-emotion-recognition/main.py", line 205, in main
+    mfcc_crnn = build_mfcc_crnn(X_train_mfcc.shape[1:], num_classes)
+  File "/home/sallopes/speech-emotion-recognition/main.py", line 130, in build_mfcc_crnn
+    Reshape((model.output_shape[1], model.output_shape[2] * model.output_shape[3])),
+             ^^^^^
+UnboundLocalError: cannot access local variable 'model' where it is not associated with a value
