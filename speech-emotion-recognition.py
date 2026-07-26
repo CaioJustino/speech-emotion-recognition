@@ -79,7 +79,8 @@ ravdess_df = pd.DataFrame(emotions, columns=['Emotion'])
 ravdess_df['Path'] = paths
 
 # ----------------- TESS -----------------
-tess_dir = 'data/tess/'
+# Ajustado para acessar a subpasta 'tess' conforme a imagem image_2e71ef.png
+tess_dir = 'data/tess/tess/'
 emotions = []
 paths = []
 
@@ -111,7 +112,8 @@ tess_df = pd.DataFrame(emotions, columns=['Emotion'])
 tess_df['Path'] = paths
 
 # ----------------- SAVEE -----------------
-savee_dir = 'data/savee/ALL/'
+# Ajustado para acessar os arquivos direto na raiz 'data/savee/' conforme a imagem image_2e71eb.png
+savee_dir = 'data/savee/'
 emotions = []
 paths = []
 
@@ -144,7 +146,7 @@ savee_df['Path'] = paths
 
 
 # ==========================================
-# 3- Data Exploration and Preparation
+# 3- Data Preparation
 # ==========================================
 # Combine datasets
 df = pd.concat([cremad_df, ravdess_df, tess_df, savee_df], axis=0)
