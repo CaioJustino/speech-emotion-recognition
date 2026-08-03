@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1                     
 #SBATCH --cpus-per-task=8              
 #SBATCH --mem=32G                      
-#SBATCH --time=24:00:00                
+#SBATCH --time=3-0:0                
 #SBATCH --partition=amd-512
 
 # Inicializando o ambiente Conda.
