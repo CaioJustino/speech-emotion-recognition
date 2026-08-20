@@ -1,13 +1,16 @@
 # Speech Emotion Recognition (SER) using CNNs and CRNNs Based on Mel Frequency Cepstral Coefficients (MFCCs).
 
 import os
+
+os.environ['TF_CUDNN_USE_AUTOTUNE'] = '0'
+
 import pandas as pd
 import numpy as np
 import librosa
 from joblib import Parallel, delayed
+import gc
 
 import tensorflow as tf
-from tensorflow.keras import mixed_precision # Importação
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
@@ -15,18 +18,21 @@ from sklearn.metrics import classification_report
 import warnings
 warnings.filterwarnings('ignore')
 
-# Check if GPU is available
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+physical_devices = tf.config.list_physical_devices('GPU')
+print("\nNum GPUs Available: ", len(physical_devices))
+if physical_devices:
+    try:
+        for gpu in physical_devices:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
 
-# Ativar Tensor Cores da V100 para multiplicar a velocidade por 3x
-mixed_precision.set_global_policy('mixed_float16')
-
-# Configurar o uso de múltiplas GPUs
+# Configurar o uso da GPU
 strategy = tf.distribute.MirroredStrategy()
 print('Num Devices: {}'.format(strategy.num_replicas_in_sync))
 
-# Aumentar o Batch Size de 32 para 128 para alimentar a V100
-global_batch_size = 128 * strategy.num_replicas_in_sync
+# Batch size seguro para evitar qualquer pico de memória
+global_batch_size = 64 * strategy.num_replicas_in_sync
 
 # ==========================================
 # 1 & 2- Data Collection and Wrangling
@@ -197,7 +203,7 @@ lr_scheduler = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0
 
 
 # ==========================================
-# 5- PROCESS: MFCCs (OTIMIZADO)
+# 5- PROCESS: MFCCs
 # ==========================================
 
 # 1. Função que carrega apenas o array do áudio na RAM
@@ -215,17 +221,19 @@ def extract_mfcc_from_memory(audio_array, sr, n_mfcc_val):
     signal = librosa.feature.mfcc(y=audio_array, sr=sr, n_mfcc=n_mfcc_val, n_mels=n_mels_val)
     return np.array(signal)
 
-
 lista_mfccs = [12, 13, 14, 25, 39, 65, 96, 128, 192, 255, 256, 257]
 
 for n_mfcc in lista_mfccs:
+    # --- LIMPEZA DE MEMÓRIA ---
+    tf.keras.backend.clear_session()
+    gc.collect()
+
     print(f"\n=======================================================")
     print(f" Executando treinamento para n_mfcc = {n_mfcc}")
     print(f"=======================================================")
 
     print(f"Extracting MFCCs ({n_mfcc}) da Memória RAM...")
     
-    # Extração ultra-rápida, sem ler do disco
     X_mfcc = Parallel(n_jobs=-1)(delayed(extract_mfcc_from_memory)(audio, 44100, n_mfcc) for audio in raw_audios)
     y_mfcc = df['Emotion']
 
@@ -238,19 +246,20 @@ for n_mfcc in lista_mfccs:
     X_train_2 = (X_train_2 - mean_mfcc) / std_mfcc
     X_test_2 = (X_test_2 - mean_mfcc) / std_mfcc
 
-    # Reshape dinâmico
-    X_train_2 = X_train_2.reshape(X_train_2.shape[0], n_mfcc, 345, 1)
-    X_test_2 = X_test_2.reshape(X_test_2.shape[0], n_mfcc, 345, 1)
+    # Pad de 345 para 352 para otimização de matriz na GPU
+    pad_width = 352 - 345
+    X_train_2 = np.pad(X_train_2, ((0, 0), (0, 0), (0, pad_width)), mode='constant')
+    X_test_2 = np.pad(X_test_2, ((0, 0), (0, 0), (0, pad_width)), mode='constant')
 
-    # Adicionado .cache() antes do .batch() para manter os dados na RAM entre épocas
-    train_dataset_2 = tf.data.Dataset.from_tensor_slices((X_train_2, y_train_2)).cache().batch(global_batch_size).prefetch(tf.data.experimental.AUTOTUNE)
-    test_dataset_2 = tf.data.Dataset.from_tensor_slices((X_test_2, y_test_2)).cache().batch(global_batch_size).prefetch(tf.data.experimental.AUTOTUNE)
+    # Reshape dinâmico 
+    X_train_2 = X_train_2.reshape(X_train_2.shape[0], n_mfcc, 352, 1)
+    X_test_2 = X_test_2.reshape(X_test_2.shape[0], n_mfcc, 352, 1)
 
     # Model 5.1: MFCCs CNN Model
     print(f"\n--- Training MFCC CNN (n_mfcc={n_mfcc}) ---")
     with strategy.scope():
         model_mfcc = tf.keras.Sequential([
-            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(n_mfcc, 345, 1), padding='same'),
+            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(n_mfcc, 352, 1), padding='same'),
             tf.keras.layers.MaxPooling2D((2, 2), padding='same'),
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
@@ -264,22 +273,28 @@ for n_mfcc in lista_mfccs:
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.GlobalAveragePooling2D(),
             tf.keras.layers.Dropout(0.5),
-            tf.keras.layers.Dense(num_classes, activation='softmax')
+            tf.keras.layers.Dense(num_classes, activation='softmax') 
         ])
         model_mfcc.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-    model_mfcc.fit(train_dataset_2, epochs=100, validation_data=test_dataset_2, callbacks=[early_stop, lr_scheduler], verbose=2)
+    model_mfcc.fit(
+        x=X_train_2, 
+        y=y_train_2, 
+        batch_size=global_batch_size, 
+        epochs=100, 
+        validation_data=(X_test_2, y_test_2), 
+        callbacks=[early_stop, lr_scheduler], 
+        verbose=2
+    )
     model_mfcc.save(f'models/emotion_recognition_mfcc_cnn_{n_mfcc}.keras')
 
     y_pred_mfcc = np.argmax(model_mfcc.predict(X_test_2), axis=1)
     print(f"\nRESULTS: MFCC CNN (n_mfcc={n_mfcc})")
     print(classification_report(y_test_2, y_pred_mfcc, target_names=encoder.classes_))
 
-    # Save results for CSV
     report_mfcc = classification_report(y_test_2, y_pred_mfcc, target_names=encoder.classes_, output_dict=True)
     df_res_mfcc = pd.DataFrame(report_mfcc).transpose().reset_index().rename(columns={'index': 'Class/Metric'})
     df_res_mfcc.insert(0, 'Model', f'MFCC CNN ({n_mfcc})')
-    
     df_res_mfcc.to_csv(f'results/MFCC_CNN/{n_mfcc}.csv', index=False)
     all_results_df.append(df_res_mfcc)
 
@@ -287,7 +302,7 @@ for n_mfcc in lista_mfccs:
     print(f"\n--- Training MFCC CRNN (n_mfcc={n_mfcc}) ---")
     with strategy.scope():
         model_crnn = tf.keras.Sequential([
-            tf.keras.layers.Conv2D(16, (3, 3), activation='relu', input_shape=(n_mfcc, 345, 1), padding='same'),
+            tf.keras.layers.Conv2D(16, (3, 3), activation='relu', input_shape=(n_mfcc, 352, 1), padding='same'),
             tf.keras.layers.MaxPooling2D((2, 2), padding='same'), 
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
@@ -304,26 +319,32 @@ for n_mfcc in lista_mfccs:
             tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64, return_sequences=True)),
             tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64)),
             tf.keras.layers.Dropout(0.5),
-            tf.keras.layers.Dense(num_classes, activation='softmax')
+            tf.keras.layers.Dense(num_classes, activation='softmax') 
         ])
         model_crnn.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-    model_crnn.fit(train_dataset_2, epochs=100, validation_data=test_dataset_2, callbacks=[early_stop, lr_scheduler], verbose=2)
+    model_crnn.fit(
+        x=X_train_2, 
+        y=y_train_2, 
+        batch_size=global_batch_size, 
+        epochs=100, 
+        validation_data=(X_test_2, y_test_2), 
+        callbacks=[early_stop, lr_scheduler], 
+        verbose=2
+    )
     model_crnn.save(f'models/emotion_recognition_mfcc_crnn_{n_mfcc}.keras')
 
     y_pred_crnn = np.argmax(model_crnn.predict(X_test_2), axis=1)
     print(f"\nRESULTS: MFCC CRNN (n_mfcc={n_mfcc})")
     print(classification_report(y_test_2, y_pred_crnn, target_names=encoder.classes_))
 
-    # Save results for CSV
     report_crnn = classification_report(y_test_2, y_pred_crnn, target_names=encoder.classes_, output_dict=True)
     df_res_crnn = pd.DataFrame(report_crnn).transpose().reset_index().rename(columns={'index': 'Class/Metric'})
     df_res_crnn.insert(0, 'Model', f'MFCC CRNN ({n_mfcc})')
-    
     df_res_crnn.to_csv(f'results/MFCC_CRNN/{n_mfcc}.csv', index=False)
     all_results_df.append(df_res_crnn)
 
-# Concatenate all results and save to a consolidated CSV
+# Concatenate all results
 final_results = pd.concat(all_results_df, ignore_index=True)
 final_results.to_csv('results/results_consolidated.csv', index=False)
 print("\nMetrics successfully saved to individual folders and consolidated in results/results_consolidated.csv")
