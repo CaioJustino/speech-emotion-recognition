@@ -138,7 +138,7 @@ def run_pipeline(
     # -------------------------------------------------------------
     for n_mfcc in mfcc_list:
         print("\n" + "=" * 65)
-        print(f" Executando extração e validação 10-Fold para n_mfcc = {n_mfcc}")
+        print(f" Executando extração e validação 20-Fold para n_mfcc = {n_mfcc}")
         print("=" * 65)
 
         # IMPORTANTE: clear_session() aqui, UMA VEZ por n_mfcc (12x no total) — não a cada
@@ -158,7 +158,7 @@ def run_pipeline(
         crnn_true_labels, crnn_pred_labels = [], []
 
         for fold, (train_index, test_index) in enumerate(prep.get_splits(X_mfcc, y_mfcc), 1):
-            print(f"\n--- Fold {fold}/10 (n_mfcc={n_mfcc}) ---")
+            print(f"\n--- Fold {fold}/20 (n_mfcc={n_mfcc}) ---")
 
             train_X, train_y, X_test, y_test = prep.prepare_fold_tensors(
                 X_mfcc=X_mfcc,
@@ -187,7 +187,7 @@ def run_pipeline(
             cnn_true_labels.extend(y_t)
             cnn_pred_labels.extend(y_p)
 
-            if fold == 10:
+            if fold == 20:
                 model_registry.save_model(model_cnn, "cnn", n_mfcc)
 
             del model_cnn
@@ -212,7 +212,7 @@ def run_pipeline(
             crnn_true_labels.extend(y_t)
             crnn_pred_labels.extend(y_p)
 
-            if fold == 10:
+            if fold == 20:
                 model_registry.save_model(model_crnn, "crnn", n_mfcc)
 
             del model_crnn, train_X, train_y, X_test, y_test
@@ -222,7 +222,7 @@ def run_pipeline(
         # 5. Consolidação de Resultados por n_mfcc
         # -------------------------------------------------------------
         print("\n" + "=" * 65)
-        print(f" RESULTADOS CONSOLIDADOS (10-Fold) PARA N_MFCC = {n_mfcc}")
+        print(f" RESULTADOS CONSOLIDADOS (20-Fold) PARA N_MFCC = {n_mfcc}")
         print("=" * 65)
 
         # CNN
