@@ -181,7 +181,7 @@ def run_pipeline(
         for fold, (train_index, test_index) in enumerate(prep.get_splits(X_mfcc, y_mfcc), 1):
             print(f"\n--- Fold {fold}/20 (n_mfcc={n_mfcc}) ---")
 
-            train_X, train_y, X_test, y_test = prep.prepare_fold_tensors(
+            train_dataset, test_dataset, X_test, y_test = prep.prepare_fold_tensors(
                 X_mfcc=X_mfcc,
                 y_mfcc=y_mfcc,
                 train_index=train_index,
@@ -198,11 +198,9 @@ def run_pipeline(
             tracker_cnn.start()
 
             model_cnn.fit(
-                x=train_X,
-                y=train_y,
-                batch_size=batch_size,
+                x=train_dataset,
                 epochs=epochs,
-                validation_data=(X_test, y_test),
+                validation_data=test_dataset,
                 callbacks=get_callbacks(),
                 verbose=2
             )
@@ -230,11 +228,9 @@ def run_pipeline(
             tracker_crnn.start()
 
             model_crnn.fit(
-                x=train_X,
-                y=train_y,
-                batch_size=batch_size,
+                x=train_dataset,
                 epochs=epochs,
-                validation_data=(X_test, y_test),
+                validation_data=test_dataset,
                 callbacks=get_callbacks(),
                 verbose=2
             )
@@ -251,6 +247,7 @@ def run_pipeline(
                 model_registry.save_model(model_crnn, "crnn", n_mfcc)
 
             del model_crnn, train_X, train_y, X_test, y_test
+            del model_crnn, train_dataset, test_dataset, X_test, y_test
             gc.collect()
 
         # -------------------------------------------------------------
