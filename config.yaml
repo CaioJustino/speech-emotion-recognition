@@ -1,0 +1,56 @@
+paths:
+  data_dir: "data"
+  cremad_dir: "data/cremad/AudioWAV"
+  ravdess_dir: "data/ravdess"
+  tess_dir: "data/tess/tess"
+  savee_dir: "data/savee"
+  feat_store_dir: "data/feat_store"
+  models_dir: "models"
+  results_dir: "results"
+  metadata_dir: "results/metadata"
+  results_cnn_dir: "results/MFCC_CNN"
+  results_crnn_dir: "results/MFCC_CRNN"
+  consolidated_results_path: "results/results_consolidated.csv"
+
+audio_processing:
+  sample_rate: 44100
+  audio_duration: 4
+  target_time_frames: 352
+  raw_time_frames: 345
+  pad_width: 7
+
+dataset:
+  target_samples_per_class: 1703
+  dropped_emotions:
+    - "calm"
+    - "surprise"
+  random_state: 42
+
+training:
+  global_batch_size: 128
+  epochs: 100
+  n_splits: 20
+  learning_rate: 0.001
+  min_lr: 0.000001
+  patience_early_stopping: 10
+  patience_lr_scheduler: 3
+  lr_reduce_factor: 0.2
+  mfcc_list:
+    - 12
+    - 13
+    - 14
+    - 25
+    - 39
+    - 65
+    - 96
+    - 128
+    - 192
+    - 255
+    - 256
+    - 257
+
+hardware:
+  tf_cudnn_use_autotune: "1"
+  tf_xla_flags: "--tf_xla_enable_xla_devices"
+  mixed_precision_policy: "mixed_float16"
+
