@@ -7,7 +7,7 @@ The pipeline encapsulates the entire machine learning lifecycle, including data 
 
 ## Key Features
 - **Modular MLOps Architecture**: Distinct modules for ETL (Extraction, Transformation, Loading), Execution (EDA, Training, Validation), and Stores (Feature, Metadata, Artifact, Model registries).
-- **Automated Data Processing**: Cleans labels, removes unwanted emotions (e.g., calm, surprise), and ensures balanced classes via targeted random undersampling.
+- **Automated Data Processing**: Cleans labels, removes unwanted emotions (calm and surprise), and ensures balanced classes via targeted random undersampling.
 - **Hardware Optimization**: Implements TensorFlow mixed precision and XLA compilation to maximize GPU throughput and training efficiency.
 - **Energy Consumption Tracking**: Features integrated real-time monitoring of energy consumption (kWh) and estimated carbon emissions (CO2e) during model training, following the methodology proposed by Strubell et al. (2019).
 - **Robust Cross-Validation**: Reliable performance evaluation across all implemented architectures using 20-fold cross-validation.
